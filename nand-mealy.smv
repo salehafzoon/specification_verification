@@ -1,0 +1,7 @@
+MODULE main
+VAR
+    in1: boolean;
+    in2: boolean;
+
+DEFINE
+    out := !(in1 & in2);

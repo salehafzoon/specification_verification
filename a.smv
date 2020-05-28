@@ -1,0 +1,25 @@
+MODULE main
+
+VAR
+    loc :{l1,l2};
+ASSIGN
+    init(loc) :=l1;
+    next(loc) := case
+                loc = l1:l2;
+                loc = l2:l1;
+                esac;
+                
+
+--NuSMV -int RET
+--read_model -i a.smv
+--flatten_hierarchy
+--encode_variables
+--build_model
+
+--pick_state -i
+
+--ya aval go bad pick_state -i
+--simulate -i -k 10
+
+--reset konid dobare az aval she hamin dastura berin jolo
+--age init nazari miporse azat

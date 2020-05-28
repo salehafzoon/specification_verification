@@ -1,0 +1,46 @@
+MODULE main
+ VAR
+    proc1       : process task1(x);
+    proc2       : process task2(x);
+    x : 0 .. 200;
+    
+ASSIGN
+    init(x) := 0;
+
+---EF p = exists some path (E) that eventually in the future satisfies p.
+ 
+ SPEC EF (x = 0)
+ SPEC EF (x = 1)
+ SPEC EF (x = 2)
+
+ SPEC EG (x = 0)
+ SPEC EG (x = 1)
+ SPEC EG (x = 2)
+
+ SPEC EF (x = 199)
+ SPEC EF (x = 200)
+
+ SPEC EG (x = 199)
+ SPEC EG (x = 200)
+
+------------------------
+MODULE task1(x)
+ASSIGN
+    next(x) :=
+        case
+            (x<200) : x+1;  
+            TRUE    : x;
+        esac;
+
+-------------------------
+MODULE task2(x)
+ASSIGN
+    next(x) :=
+        case
+            (x > 0)   : x+(-1);  
+            TRUE    : x;
+        esac;
+
+
+
+---(x > 0) & 

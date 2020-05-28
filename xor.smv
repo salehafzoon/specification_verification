@@ -1,0 +1,11 @@
+MODULE main
+VAR
+    x: boolean;
+    r: boolean;
+
+DEFINE
+    y := !(x xor r);
+
+ASSIGN
+    init(r):= FALSE;
+    next(r):= x xor r;
