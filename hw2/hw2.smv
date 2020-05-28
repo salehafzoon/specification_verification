@@ -1,46 +1,39 @@
 MODULE main
  VAR
-    proc1       : process task1(x);
-    proc2       : process task2(x);
+    proc1       : process task(x);
+    proc2       : process task(x);
     x : 0 .. 200;
-    
 ASSIGN
     init(x) := 0;
 
 ---EF p = exists some path (E) that eventually in the future satisfies p.
- 
- SPEC EF (x = 0)
- SPEC EF (x = 1)
- SPEC EF (x = 2)
-
+---EG p = exists some path (E) that condition p is continuously true.
+--------------------------------------------------------------------
  SPEC EG (x = 0)
  SPEC EG (x = 1)
  SPEC EG (x = 2)
-
- SPEC EF (x = 199)
- SPEC EF (x = 200)
-
- SPEC EG (x = 199)
- SPEC EG (x = 200)
-
+ 
+ SPEC EF (x = 0  & proc1.counter = 100 & proc2.counter = 100 )
+ SPEC EF (x = 1  & proc1.counter = 100 & proc2.counter = 100 )
+ SPEC EF (x = 2  & proc1.counter = 100 & proc2.counter = 100 )
+ SPEC EF (x = 100 & proc1.counter = 100 | proc2.counter = 100 )
+ SPEC EF (x = 200 & proc1.counter = 100 & proc2.counter = 100 )
+ SPEC EF (x = 201)
+ 
 ------------------------
-MODULE task1(x)
+MODULE task(x)
+VAR
+    counter : 0 .. 100;
 ASSIGN
+    init(counter) := 0;
     next(x) :=
         case
-            (x<200) : x+1;  
+            (counter < 100) & (x < 200) : x+1;  
             TRUE    : x;
         esac;
 
--------------------------
-MODULE task2(x)
-ASSIGN
-    next(x) :=
+    next(counter) :=
         case
-            (x > 0)   : x+(-1);  
-            TRUE    : x;
+            (counter < 100) : counter + 1;  
+            TRUE    : counter;
         esac;
-
-
-
----(x > 0) & 
